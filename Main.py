@@ -3,7 +3,6 @@ from  Menu import *
 import os
 
 menu = Menu()
-antrian = Antrian()
 
 menu.insert('nasi goreng', 10000)
 menu.insert('mie goreng', 10000)
@@ -30,7 +29,7 @@ def inputNumValidation(text):
 
 def inputConfirmationValidation():
     while True:
-        user = input("Apah anda sudah selesai(Y/N)").lower()[0]
+        user = input("Apakah anda sudah selesai(Y/N):").lower()[0]
 
         if user == 'y':
             return True
@@ -60,13 +59,34 @@ def editMenu():
 def cariMenu():
     print("Cari menu: ")
     namaMenu = inputAlphaValidation("Massukkan nama manakanan yang dicari:")
-    # pakai algoritma searching
+    r = menu.search(namaMenu)
+    while True:
+        menu.display(r)
+        inp = inputConfirmationValidation()
+
+        if inp:
+            break
+
+def hapusMenu():
+    nama = inputAlphaValidation("Masukkan menu yang anda ingin hapus:")
+    r = menu.deleteNode(menu, nama)
+    while True:
+        if r == None:
+            print("Menu tidak terdaftar!")
+        else:
+            print("Menu berhasil dihapus!")
+
+        inp = inputConfirmationValidation()
+        if inp:
+            break
+
 
 
 def daftarMenu():
     while True:
         os.system('cls')
-        menu.display()
+        inp = menu.inorder()
+        menu.display(inp)
         print("pilih aksi yang akan dilakukan: \n 1. Tambah Menu \n 2. Edit Menu "
               "\n 3. Cari Menu \n 4. Hapus Menu \n 5. Exit")
         action = input(" Pilih action:")
@@ -77,7 +97,7 @@ def daftarMenu():
         elif action == '3':
             cariMenu()
         elif action == '4':
-            daftarMenu()
+            hapusMenu()
         elif action == '5':
             break
         else:
@@ -86,34 +106,16 @@ def daftarMenu():
 
 
 def input_Antrian():
-    os.system('cls')
-    atasnama = input("Atas Nama :")
-    items = []
-    print("Pilih menu:")
-    menu.display()
-    while True:
-        item = inputNumValidation("Menu mana yang mau anda pilih:")
-        num = inputNumValidation("Berapa banyak:")
-        items += [list[item]]*num
-
-        user = inputConfirmationValidation()
-        if user:
-            break
-    antrian.enquee(atasNama=atasnama, menu=items)
-
+    pass
 
 
 def pesananJadi():
-    pelanggan = antrian.dequeue()
-    print(f'Pesanan atanama {pelanggan.atasNama} sudah jadi ganti giliran')
-
-
-
+    pass
 
 def pesanan():
     os.system('cls')
     print("Antrian:")
-    antrian.display()
+    print(None)
     print("pilih aksi yang akan dilakukan: \n 1. Tambah Pesanan \n 2. Pesnan sudah jadi \n 3. Cari Pesanan"
           "\n 4. Lihat Menu \n 5. Exit")
     action = input(" Pilih action:")
@@ -129,6 +131,7 @@ def pesanan():
         return False
     else:
         print('maaf aksi tersebut tidak ada')
+
 
 
 

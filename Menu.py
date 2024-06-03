@@ -33,8 +33,8 @@ class Menu():
             items +=self.__right.inorder()
         return items
 
-    def display(self):
-        menus = self.inorder()
+    def display(self,menus):
+
         i = 1
         print("Daftar menu :\nharga \t \t nama")
         for menu in menus:
@@ -55,3 +55,37 @@ class Menu():
         self.__nama = newNama
         self.__harga = harga
         print("Menu berhasil diedit")
+
+    def deleteNode(self, root, key):
+        # Base case
+        if root is None:
+            return root
+
+        # If the key to be deleted is smaller than the root's key, then it lies in the left subtree
+        if key < root.__nama:
+            root.left = self.deleteNode(root.__left, key)
+        # If the key to be deleted is greater than the root's key, then it lies in the right subtree
+        elif key > root.__nama:
+            root.__right = self.deleteNode(root.__right, key)
+        # If key is same as root's key, then this is the node to be deleted
+        else:
+            # Node with only one child or no child
+            if root.__left is None:
+                return root.__right
+            elif root.right is None:
+                return root.__left
+
+            # Node with two children: Get the inorder successor (smallest in the right subtree)
+            root.__nama = self.minValue(root.__right)
+
+            # Delete the inorder successor
+            root.__right = self.deleteNode(root.__right, root.__nama)
+
+        return root
+
+    def minValue(self, root):
+        minv = root.__nama
+        while root.__left:
+            minv = root.__left.__nama
+            root = root.__left
+        return minv
